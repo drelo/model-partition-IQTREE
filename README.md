@@ -10,12 +10,12 @@ Place all the fasta files in the folder "FASTA". I concatenated the alignments w
 ./AMAS/amas/AMAS.py concat -i ./FASTA/*fas -f fasta -d dna -t concatenated.fas -p partition.part
 ```
 
-For this routine I used all the files obtained after several runs of IQ-TREE  [IQ-TREE](http://www.iqtree.org/). IQTREE uses ModelFinder to select the best substitution models.
+For this routine I used all the files obtained after several runs of IQ-TREE  [IQ-TREE](http://www.iqtree.org/). IQTREE uses ModelFinder to select the best substitution models. Modify this script according to either version of IQTREE (iqtree or iqtree2)
 
 "S. Kalyaanamoorthy, B.Q. Minh, T.K.F. Wong, A. von Haeseler, and L.S. Jermiin (2017) ModelFinder: fast model selection for accurate phylogenetic estimates. Nat. Methods, 14:587–589. DOI: 10.1038/nmeth.4285"
  
 ```bash
-for i in FASTA/*.fas ; do iqtree -s $i ; done 
+for i in FASTA/*.fas ; do ./iqtree -s $i ; done 
 ```
 
 Search for the line where the best model is mentioned...
@@ -41,5 +41,5 @@ paste MODEL3 LENGTH > partitionmodels
 Finally I run IQTREE with this line
 
 ```
-iqtree -s concatenated.fas -p partitionmodels
+./iqtree -s concatenated.fas -p partitionmodels
 ```
