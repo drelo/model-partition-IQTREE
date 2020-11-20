@@ -1,5 +1,5 @@
 # model-partition-IQTREE
-A simple example to parse IQTREE model selection to generate a partition file for concatenated analysis.
+A simple example to parse IQTREE model selection in each gene alignment to generate a partition file with the best substitution model for use in concatenated analyses.
 
 
 ### Obtaining a Partition File with the Best Substitution Models
