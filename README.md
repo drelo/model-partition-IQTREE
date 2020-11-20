@@ -27,8 +27,8 @@ grep 'Best-fit model' ./FASTA/*.iqtree > MODEL
 ```bash
 # extract the desired columns or text
 awk '{print $1 $NF}' MODEL  > MODEL2   
-# replace strings
-sed -i 's~.fas~~g; s~.iqtree:Best-fit~ ~g; s~$~,~g' MODEL2
+# replace multiple strings inplace
+sed -i 's~./FASTA/~~g; s~.fas~~g; s~.iqtree:Best-fit~ ~g; s~$~,~g' MODEL2
 # switch order of columns or text
 awk '{print $2" "$1}' MODEL2 > MODEL3
 # exract only 2 columns with the partition file generated with AMAS, at this stage we can compare both 'MODEL3' and 'partition.part' to see the order of the loci
