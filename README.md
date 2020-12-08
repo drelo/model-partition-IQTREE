@@ -1,10 +1,11 @@
 # model-partition-IQTREE
-A simple example to parse IQTREE model selection in each gene alignment to generate a partition file with the best substitution model for use in concatenated analyses.
+
+A simple example to parse results from the IQTREE model selection stage from each gene alignment in order to generate a partition file with the best substitution model, ideal for using along concatenated analyses.
 
 
 ### Obtaining a Partition File with the Best Substitution Models
 
-Place all the fasta files in the folder "FASTA". I concatenated the alignments with [AMAS](https://github.com/marekborowiec/AMAS) passing the options '-t' and '-p' is useful to control the name of the output.
+Place all the fasta files in the folder "FASTA". I concatenated the alignments with [AMAS](https://github.com/marekborowiec/AMAS) passing the options '-t' and '-p' is useful to control the name of the output {I kept the default names here}
 
 ```
 ./AMAS/amas/AMAS.py concat -i ./FASTA/*fas -f fasta -d dna -t concatenated.fas -p partition.part
