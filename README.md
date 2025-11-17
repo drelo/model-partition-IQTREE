@@ -2,45 +2,28 @@
 
 A simple example to parse results from the IQTREE model selection stage from each gene alignment in order to generate a partition file with the best substitution model, ideal for using along concatenated analyses.
 
-
 ### Obtaining a Partition File with the Best Substitution Models
 
-Place all the fasta files in the folder "FASTA". I concatenated the alignments with [AMAS](https://github.com/marekborowiec/AMAS) passing the options '-t' and '-p' is useful to control the name of the output {I kept the default names here}
+This example provides a self-contained script to demonstrate the workflow. It uses mock `iqtree` and `AMAS` executables, so you don't need to have them installed to run it.
 
-```
-./AMAS/amas/AMAS.py concat -i ./FASTA/*fas -f fasta -d dna -t concatenated.fas -p partition.part
+**To run the example, simply execute the following command:**
+
+```bash
+bash run_model_partition.sh
 ```
 
-For this routine I used all the files obtained after several runs of IQ-TREE  [IQ-TREE](http://www.iqtree.org/). IQTREE uses ModelFinder to select the best substitution models. Modify this script according to either version of IQTREE (iqtree or iqtree2)
+The script will create an `output` directory containing the final partition file, `partitionmodels`, as well as other intermediate files.
+
+### The Workflow
+
+The `run_model_partition.sh` script performs the following steps:
+
+1.  **Runs ModelFinder:** It simulates running IQ-TREE's ModelFinder on each FASTA file in the `FASTA` directory to determine the best-fit substitution model for each gene.
+2.  **Concatenates Alignments:** It simulates using AMAS to concatenate the individual gene alignments into a single file.
+3.  **Extracts Models:** It extracts the best-fit model from each of the ModelFinder output files.
+4.  **Creates Partition File:** It combines the model information with the partition data from AMAS to create a final partition file that can be used with IQ-TREE for a partitioned analysis.
+5.  **Final Command:** It prints the final IQ-TREE command that would be used to run the analysis with the generated partition file.
+
+This example is based on the methods described in:
 
 "S. Kalyaanamoorthy, B.Q. Minh, T.K.F. Wong, A. von Haeseler, and L.S. Jermiin (2017) ModelFinder: fast model selection for accurate phylogenetic estimates. Nat. Methods, 14:587–589. DOI: 10.1038/nmeth.4285"
- 
-```bash
-for i in FASTA/*.fas ; do ./iqtree -s $i ; done 
-```
-
-Search for the line where the best model is mentioned...
-
-```bash
-grep 'Best-fit model' ./FASTA/*.iqtree > MODEL
-```
-
-```bash
-# extract the desired columns or text
-awk '{print $1 $NF}' MODEL  > MODEL2   
-# replace multiple strings inplace
-sed -i 's~./FASTA/~~g; s~.fas~~g; s~.iqtree:Best-fit~ ~g; s~$~,~g' MODEL2
-# switch order of columns or text
-awk '{print $2" "$1}' MODEL2 > MODEL3
-# exract only 2 columns from the partition file generated with AMAS
-# At this stage we can compare both 'MODEL3' and 'partition.part' columns to confirm the order of the loci listed in both files
-awk '{print $2" "$NF}' partition.part > LENGTH
-# This will paste both files to obtain the "partitionmodels" file
-paste MODEL3 LENGTH > partitionmodels
-```
-
-Finally I run IQTREE with this line
-
-```
-./iqtree -s concatenated.fas -p partitionmodels
-```
